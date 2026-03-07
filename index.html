@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>AmplifyNzp</title>
- <link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Stardos+Stencil:wght@700&display=swap" rel="stylesheet">
+
 <style>
 html,body{height:100%;margin:0}
+
 body{
  background:#000 url('https://images3.alphacoders.com/585/585976.jpg') center/cover no-repeat fixed;
  color:#ddd;
@@ -14,7 +16,6 @@ body{
  overflow:hidden;
 }
 
-/* dark gradient overlay */
 body::before{
  content:"";
  position:fixed;inset:0;
@@ -22,7 +23,6 @@ body::before{
  pointer-events:none;
 }
 
-/* scanlines */
 body::after{
  content:"";
  position:fixed;inset:0;
@@ -30,6 +30,7 @@ body::after{
  animation:scan 6s linear infinite;
  pointer-events:none;
 }
+
 @keyframes scan{from{background-position:0 0}to{background-position:0 200px}}
 
 .topbar{
@@ -40,6 +41,7 @@ body::after{
  padding:0 40px;
  letter-spacing:2px;
 }
+
 .topbar .title{font-size:28px}
 .topbar .user{font-size:14px;color:#aaa}
 
@@ -51,28 +53,43 @@ body::after{
 }
 
 .menu ul{list-style:none;padding:0;margin:0}
+
 .menu li{
  padding:14px 0;
  font-size:26px;
  color:#cfcfcf;
  position:relative;
 }
-.menu li.active{color:#ffb347;text-shadow:0 0 8px #ffb347}
-.menu li.active::before{content:'A';color:#7cff4f;position:absolute;left:-30px}
+
+.menu li.active{
+ color:#ffb347;
+ text-shadow:0 0 8px #ffb347
+}
+
+.menu li.active::before{
+ content:'A';
+ color:#7cff4f;
+ position:absolute;
+ left:-30px
+}
+
 .menu li:hover{color:#fff;cursor:pointer}
 
 .motd{
  position:absolute;
- left:80px;bottom:80px;
+ left:80px;
+ bottom:80px;
  font-size:16px;
 }
+
 .motd .title{color:#fff;margin-bottom:10px}
 .motd .green{color:#42ff7b}
 .motd .blue{color:#55caff}
 
 .logo{
  position:absolute;
- right:120px;bottom:120px;
+ right:120px;
+ bottom:120px;
  text-align:right;
  font-family:'Stardos Stencil', serif;
  font-size:56px;
@@ -80,10 +97,49 @@ body::after{
  text-shadow:0 0 10px #000,0 0 30px #ff6a00;
 }
 
+/* UPDATE LOG */
+
+.updates{
+ position:absolute;
+ right:120px;
+ top:180px;
+ width:340px;
+ font-size:15px;
+}
+
+.updates .title{
+ color:#fff;
+ margin-bottom:12px;
+ font-size:18px;
+ letter-spacing:2px;
+}
+
+.version{
+ margin-bottom:14px;
+}
+
+.ver{
+ color:#ffb347;
+ display:block;
+ margin-bottom:4px;
+}
+
+.version ul{
+ margin:0;
+ padding-left:18px;
+}
+
+.version li{
+ color:#cfcfcf;
+ padding:2px 0;
+}
+
 #grain{position:fixed;inset:0;pointer-events:none}
 </style>
 </head>
+
 <body>
+
 <div class="topbar">
  <div class="title">HOMEPAGE</div>
  <div class="user">AmplifyNzp</div>
@@ -100,9 +156,9 @@ body::after{
     Games
   </li>
 
- <li onclick="window.open('https://jolly-hertha-blooketmoondog-37de81e1.koyeb.app/', '_blank')">
-  Startpage (pr0x)
-</li>
+  <li onclick="window.open('https://jolly-hertha-blooketmoondog-37de81e1.koyeb.app/', '_blank')">
+    Startpage (pr0x)
+  </li>
 
   <li onclick="location.href='extras.html'">
     Extras
@@ -127,22 +183,102 @@ body::after{
 
 <div class="logo">AmplifyNzp</div>
 
+<!-- UPDATE LOG WITH BULLETS -->
+<div class="updates">
+
+ <div class="title">Update Log</div>
+
+ <div class="version">
+  <span class="ver">v1.0</span>
+  <ul>
+   <li>Initial site release</li>
+   <li>Added game menu </li>
+   <li>Added 10 Games</li>
+  </ul>
+ </div>
+
+ <div class="version">
+  <span class="ver">v1.1</span>
+  <ul>
+   <li>Added Hypackel Portal</li>
+   <li>Added FreezeNova portal</li>
+  </ul>
+ </div>
+
+ <div class="version">
+  <span class="ver">v1.2</span>
+  <ul>
+   <li>New Games page</li>
+   <li>Improved navigation</li>
+  </ul>
+ </div>
+
+ <div class="version">
+  <span class="ver">v1.3</span>
+  <ul>
+   <li>Added update log panel</li>
+   <li>General UI polish</li>
+  </ul>
+ </div>
+
+</div>
+
 <audio id="ambience" loop>
  <source src="menu_ambience.mp3" type="audio/mpeg">
 </audio>
+
 <canvas id="grain"></canvas>
 
 <script>
-// navigation
+
 const items=[...document.querySelectorAll('#menuList li')];
-let i=0;function update(){items.forEach(e=>e.classList.remove('active'));items[i].classList.add('active');}
-document.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){i=(i+1)%items.length;update()}if(e.key==='ArrowUp'){i=(i-1+items.length)%items.length;update()}});
+let i=0;
 
-// ambience
-const amb=document.getElementById('ambience');amb.volume=.25;window.addEventListener('load',()=>{const p=amb.play();if(p)p.catch(()=>{})});document.addEventListener('click',()=>amb.play(),{once:true});
+function update(){
+ items.forEach(e=>e.classList.remove('active'));
+ items[i].classList.add('active');
+}
 
-// grain
-const c=document.getElementById('grain');const ctx=c.getContext('2d');function r(){c.width=innerWidth;c.height=innerHeight;}r();addEventListener('resize',r);function n(){const id=ctx.createImageData(c.width,c.height);for(let i=0;i<id.data.length;i+=4){const v=Math.random()*255|0;id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=35;}ctx.putImageData(id,0,0);requestAnimationFrame(n);}n();
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowDown'){i=(i+1)%items.length;update()}
+ if(e.key==='ArrowUp'){i=(i-1+items.length)%items.length;update()}
+});
+
+const amb=document.getElementById('ambience');
+amb.volume=.25;
+
+window.addEventListener('load',()=>{
+ const p=amb.play();
+ if(p)p.catch(()=>{})
+});
+
+document.addEventListener('click',()=>amb.play(),{once:true});
+
+const c=document.getElementById('grain');
+const ctx=c.getContext('2d');
+
+function r(){
+ c.width=innerWidth;
+ c.height=innerHeight;
+}
+
+r();
+addEventListener('resize',r);
+
+function n(){
+ const id=ctx.createImageData(c.width,c.height);
+ for(let i=0;i<id.data.length;i+=4){
+  const v=Math.random()*255|0;
+  id.data[i]=id.data[i+1]=id.data[i+2]=v;
+  id.data[i+3]=35;
+ }
+ ctx.putImageData(id,0,0);
+ requestAnimationFrame(n);
+}
+
+n();
+
 </script>
+
 </body>
 </html>
