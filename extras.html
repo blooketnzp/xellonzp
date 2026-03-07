@@ -8,6 +8,7 @@
 
 <style>
 html,body{height:100%;margin:0}
+
 body{
  background:#000 url('https://images3.alphacoders.com/585/585976.jpg') center/cover no-repeat fixed;
  color:#ddd;
@@ -15,7 +16,6 @@ body{
  overflow:hidden;
 }
 
-/* dark gradient overlay */
 body::before{
  content:"";
  position:fixed;inset:0;
@@ -23,7 +23,6 @@ body::before{
  pointer-events:none;
 }
 
-/* scanlines */
 body::after{
  content:"";
  position:fixed;inset:0;
@@ -31,7 +30,11 @@ body::after{
  animation:scan 6s linear infinite;
  pointer-events:none;
 }
-@keyframes scan{from{background-position:0 0}to{background-position:0 200px}}
+
+@keyframes scan{
+ from{background-position:0 0}
+ to{background-position:0 200px}
+}
 
 .topbar{
  position:absolute;top:0;left:0;right:0;
@@ -41,6 +44,7 @@ body::after{
  padding:0 40px;
  letter-spacing:2px;
 }
+
 .topbar .title{font-size:28px}
 .topbar .user{font-size:14px;color:#aaa}
 
@@ -52,22 +56,26 @@ body::after{
 }
 
 .menu ul{list-style:none;padding:0;margin:0}
+
 .menu li{
  padding:14px 0;
  font-size:26px;
  color:#cfcfcf;
  position:relative;
 }
+
 .menu li.active{
  color:#ffb347;
  text-shadow:0 0 8px #ffb347
 }
+
 .menu li.active::before{
  content:'A';
  color:#7cff4f;
  position:absolute;
  left:-30px
 }
+
 .menu li:hover{
  color:#fff;
  cursor:pointer
@@ -84,7 +92,6 @@ body::after{
  text-shadow:0 0 10px #000,0 0 30px #ff6a00
 }
 
-/* Back button (same as Games page) */
 .back{
  position:absolute;
  left:80px;
@@ -98,13 +105,53 @@ body::after{
  text-transform:uppercase;
  transition:.25s
 }
+
 .back:hover{
  background:#ffb347;
  color:#000;
  box-shadow:0 0 20px #ffb347
 }
 
-#grain{position:fixed;inset:0;pointer-events:none}
+#iframeContainer{
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:#000;
+ display:none;
+ z-index:9999;
+}
+
+#gameFrame{
+ width:100%;
+ height:100%;
+ border:none;
+}
+
+#closeIframe{
+ position:absolute;
+ top:20px;
+ left:20px;
+ padding:10px 20px;
+ font-size:18px;
+ background:#000;
+ color:#ffb347;
+ border:2px solid #ffb347;
+ cursor:pointer;
+ z-index:10000;
+}
+
+#closeIframe:hover{
+ background:#ffb347;
+ color:#000;
+}
+
+#grain{
+ position:fixed;
+ inset:0;
+ pointer-events:none
+}
 </style>
 </head>
 
@@ -117,10 +164,16 @@ body::after{
 
 <div class="menu">
  <ul id="menuList">
+
   <li class="active" onclick="alert('Coming Soon')">Hypackel</li>
-  <li onclick="alert('Coming Soon')">Freezenova</li>
+
+  <li onclick="openIframe('https://unblocked-games.s3.amazonaws.com/index.html')">
+  Freezenova
+  </li>
+
   <li onclick="alert('Coming Soon')">Placeholder One</li>
   <li onclick="alert('Coming Soon')">Placeholder Two</li>
+
  </ul>
 </div>
 
@@ -130,39 +183,73 @@ body::after{
 
 <canvas id="grain"></canvas>
 
+<div id="iframeContainer">
+<button id="closeIframe" onclick="closeIframe()">Back</button>
+<iframe id="gameFrame"></iframe>
+</div>
+
 <script>
-// Arrow navigation
+
 const items=[...document.querySelectorAll('#menuList li')];
 let i=0;
+
 function update(){
  items.forEach(e=>e.classList.remove('active'));
  items[i].classList.add('active');
 }
+
 document.addEventListener('keydown',e=>{
  if(e.key==='ArrowDown'){i=(i+1)%items.length;update()}
  if(e.key==='ArrowUp'){i=(i-1+items.length)%items.length;update()}
  if(e.key==='Enter'){items[i].click();}
+ if(e.key==='Escape'){closeIframe();}
 });
 
-// Film grain effect
+function openIframe(url){
+ const frame=document.getElementById("gameFrame");
+ const container=document.getElementById("iframeContainer");
+
+ frame.src=url;
+ container.style.display="block";
+}
+
+function closeIframe(){
+ const frame=document.getElementById("gameFrame");
+ const container=document.getElementById("iframeContainer");
+
+ frame.src="";
+ container.style.display="none";
+}
+
+/* Film grain */
+
 const c=document.getElementById('grain');
 const ctx=c.getContext('2d');
-function r(){c.width=innerWidth;c.height=innerHeight;}
-r();addEventListener('resize',r);
+
+function r(){
+ c.width=innerWidth;
+ c.height=innerHeight;
+}
+
+r();
+addEventListener('resize',r);
+
 function n(){
  const id=ctx.createImageData(c.width,c.height);
+
  for(let i=0;i<id.data.length;i+=4){
   const v=Math.random()*255|0;
   id.data[i]=id.data[i+1]=id.data[i+2]=v;
   id.data[i+3]=35;
  }
+
  ctx.putImageData(id,0,0);
  requestAnimationFrame(n);
 }
+
 n();
+
 </script>
 
 </body>
-
 </html>
-
