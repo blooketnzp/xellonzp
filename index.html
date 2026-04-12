@@ -75,6 +75,13 @@ body::after{
 
 .menu li:hover{color:#fff;cursor:pointer}
 
+.menu img{
+ margin-top:8px;
+ width:140px;
+ border-radius:10px;
+ box-shadow:0 0 10px rgba(0,0,0,.6);
+}
+
 .motd{
  position:absolute;
  left:80px;
@@ -97,8 +104,6 @@ body::after{
  text-shadow:0 0 10px #000,0 0 30px #ff6a00;
 }
 
-/* UPDATE LOG */
-
 .updates{
  position:absolute;
  right:120px;
@@ -114,25 +119,10 @@ body::after{
  letter-spacing:2px;
 }
 
-.version{
- margin-bottom:14px;
-}
-
-.ver{
- color:#ffb347;
- display:block;
- margin-bottom:4px;
-}
-
-.version ul{
- margin:0;
- padding-left:18px;
-}
-
-.version li{
- color:#cfcfcf;
- padding:2px 0;
-}
+.version{margin-bottom:14px}
+.ver{color:#ffb347;display:block;margin-bottom:4px}
+.version ul{margin:0;padding-left:18px}
+.version li{color:#cfcfcf;padding:2px 0}
 
 #grain{position:fixed;inset:0;pointer-events:none}
 </style>
@@ -147,7 +137,7 @@ body::after{
 
 <div class="menu">
  <ul id="menuList">
-  
+
   <li onclick="location.href='nzp.html'" class="active">
     Nazi Zombies: Portable
   </li>
@@ -172,6 +162,12 @@ body::after{
     Credits
   </li>
 
+  <!-- GUBBY ADDED UNDER CREDITS -->
+  <li onclick="location.href='gubby.html'">
+    <div>Gubby</div>
+    <img src="https://media.tenor.com/R8VsuAVKF1oAAAAi/gubby-roblox-gubby.gif" alt="gubby">
+  </li>
+
  </ul>
 </div>
 
@@ -190,7 +186,6 @@ body::after{
 <canvas id="grain"></canvas>
 
 <script>
-
 const items=[...document.querySelectorAll('#menuList li')];
 let i=0;
 
@@ -237,7 +232,6 @@ function n(){
 }
 
 n();
-
 </script>
 
 </body>
