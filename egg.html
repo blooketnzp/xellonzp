@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>The Man seems surprised to see you</title>
+<title>Tree Page</title>
 
 <style>
   body {
@@ -27,10 +27,19 @@
   <img src="https://media.tenor.com/xZD_mI2fY58AAAAj/deltarune-tree.gif" alt="Tree">
 
   <!-- Background Audio -->
-  <audio autoplay loop>
+  <audio id="bgMusic" loop>
     <source src="theman.mp3" type="audio/mpeg">
-    Your browser does not support audio.
   </audio>
+
+  <script>
+    const audio = document.getElementById("bgMusic");
+
+    // Force play on first click (bypasses browser autoplay block)
+    document.addEventListener("click", () => {
+      audio.play();
+    });
+  </script>
 
 </body>
 </html>
+
