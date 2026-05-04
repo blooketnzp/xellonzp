@@ -5,9 +5,7 @@
 <title>AmplifyNzp</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Stardos+Stencil:wght@700&display=swap" rel="stylesheet">
-<link rel="manifest" href="/xellonzpfetchmetheirsouls1212/manifest.json">
-<meta name="theme-color" content="#ff0000">
- 
+
 <style>
 html,body{height:100%;margin:0}
 
@@ -241,21 +239,5 @@ function n(){
 }
 
 n();
-</script>
-<button id="installBtn" style="display:none;">Install NZP</button>
-
-<script>
-let deferredPrompt;
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById("installBtn").style.display = "block";
-});
-
-document.getElementById("installBtn").addEventListener("click", () => {
-  deferredPrompt.prompt();
-});
-</script>
 </body>
 </html>
